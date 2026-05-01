@@ -128,7 +128,7 @@ Hermes itself is not an LLM. It is the orchestration layer. Concretely:
 - Handles timeouts, retries, error fallbacks per `error_handling` section of the workflow.
 - Manages the anonymization label_map.
 - Persists session data to SQLite.
-- Returns Chairman's synthesis to the calling context (CLI, web UI, chiefos.example.com dashboard, whatever).
+- Returns Chairman's synthesis to the calling context (CLI, web UI,  dashboard, whatever).
 
 ## Cost and latency profile
 
