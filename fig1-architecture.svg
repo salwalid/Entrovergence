@@ -1,0 +1,269 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 980" font-family="'Cormorant Garamond', 'EB Garamond', Georgia, serif">
+  <defs>
+    <!-- Color palette: deep navy anchor, warm gold accent, muted teal secondary -->
+    <style>
+      .title { font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif; font-weight: 600; }
+      .subtitle { font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif; font-style: italic; }
+      .body { font-family: 'Inter', 'Helvetica Neue', sans-serif; }
+      .mono { font-family: 'JetBrains Mono', 'Courier New', monospace; }
+      .label { font-family: 'Inter', 'Helvetica Neue', sans-serif; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+    </style>
+
+    <!-- Subtle drop shadow for cards -->
+    <filter id="card-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.15"/></feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Arrow marker -->
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1a2332"/>
+    </marker>
+    <marker id="arrow-gold" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#c9a961"/>
+    </marker>
+  </defs>
+
+  <!-- Off-white background -->
+  <rect width="1400" height="980" fill="#faf8f3"/>
+
+  <!-- Decorative top border -->
+  <line x1="60" y1="40" x2="1340" y2="40" stroke="#c9a961" stroke-width="0.5"/>
+  <line x1="60" y1="44" x2="1340" y2="44" stroke="#c9a961" stroke-width="0.5"/>
+
+  <!-- Header -->
+  <text x="60" y="90" class="label" font-size="11" fill="#c9a961" letter-spacing="0.2em">FIGURE 1 · ARCHITECTURE</text>
+  <text x="60" y="135" class="title" font-size="42" fill="#1a2332">The Thinking Council</text>
+  <text x="60" y="170" class="subtitle" font-size="20" fill="#3a6b6b">A six-stage deliberation workflow for high-stakes AI-assisted reasoning</text>
+
+  <!-- Right-aligned metadata -->
+  <text x="1340" y="90" class="label" font-size="10" fill="#1a2332" text-anchor="end" letter-spacing="0.15em">VERSION 1.2 · HERMES EDITION</text>
+  <text x="1340" y="108" class="body" font-size="11" fill="#1a2332" text-anchor="end" font-style="italic">Walid Saleh · 2026</text>
+
+  <!-- Stage labels along left margin -->
+  <text x="60" y="245" class="label" font-size="10" fill="#c9a961" letter-spacing="0.2em">STAGE 1</text>
+  <text x="60" y="395" class="label" font-size="10" fill="#c9a961" letter-spacing="0.2em">STAGE 2</text>
+  <text x="60" y="635" class="label" font-size="10" fill="#c9a961" letter-spacing="0.2em">STAGE 3</text>
+  <text x="60" y="730" class="label" font-size="10" fill="#c9a961" letter-spacing="0.2em">STAGE 4</text>
+  <text x="60" y="855" class="label" font-size="10" fill="#c9a961" letter-spacing="0.2em">STAGE 5–6</text>
+
+  <!-- ============================================================ -->
+  <!-- STAGE 1: TRIAGE -->
+  <!-- ============================================================ -->
+
+  <!-- User prompt entry -->
+  <g transform="translate(60, 220)">
+    <rect x="0" y="0" width="200" height="65" fill="#ffffff" stroke="#1a2332" stroke-width="1.5" filter="url(#card-shadow)"/>
+    <text x="100" y="22" class="label" font-size="9" fill="#1a2332" text-anchor="middle">USER PROMPT</text>
+    <line x1="20" y1="30" x2="180" y2="30" stroke="#c9a961" stroke-width="0.5"/>
+    <text x="100" y="50" class="body" font-size="13" fill="#1a2332" text-anchor="middle" font-style="italic">contested question</text>
+  </g>
+
+  <!-- Triage Chairman -->
+  <g transform="translate(360, 210)">
+    <rect x="0" y="0" width="240" height="85" fill="#1a2332" filter="url(#card-shadow)"/>
+    <rect x="0" y="0" width="240" height="6" fill="#c9a961"/>
+    <text x="120" y="32" class="label" font-size="9" fill="#c9a961" text-anchor="middle">TRIAGE</text>
+    <text x="120" y="55" class="title" font-size="18" fill="#faf8f3" text-anchor="middle">Chairman</text>
+    <text x="120" y="73" class="body" font-size="11" fill="#a3b8c8" text-anchor="middle" font-style="italic">decides: convene, single-pass, or clarify</text>
+  </g>
+
+  <!-- Decision branches -->
+  <g transform="translate(700, 215)">
+    <rect x="0" y="0" width="180" height="32" fill="#faf8f3" stroke="#3a6b6b" stroke-width="1"/>
+    <text x="90" y="21" class="body" font-size="11" fill="#3a6b6b" text-anchor="middle">single-pass response</text>
+  </g>
+  <g transform="translate(700, 252)">
+    <rect x="0" y="0" width="180" height="32" fill="#faf8f3" stroke="#3a6b6b" stroke-width="1"/>
+    <text x="90" y="21" class="body" font-size="11" fill="#3a6b6b" text-anchor="middle">clarify with user</text>
+  </g>
+
+  <!-- Arrows for stage 1 -->
+  <line x1="260" y1="252" x2="358" y2="252" stroke="#1a2332" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="600" y1="245" x2="698" y2="231" stroke="#3a6b6b" stroke-width="1" marker-end="url(#arrow)"/>
+  <line x1="600" y1="260" x2="698" y2="268" stroke="#3a6b6b" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <!-- "proceed" label -->
+  <text x="480" y="320" class="label" font-size="9" fill="#c9a961" text-anchor="middle">PROCEED ↓</text>
+
+  <!-- Divider -->
+  <line x1="60" y1="350" x2="1340" y2="350" stroke="#c9a961" stroke-width="0.3" stroke-dasharray="2,4"/>
+
+  <!-- ============================================================ -->
+  <!-- STAGE 2: DELEGATE — four panelists in parallel -->
+  <!-- ============================================================ -->
+
+  <text x="200" y="395" class="label" font-size="11" fill="#1a2332" letter-spacing="0.15em">DELEGATE — PARALLEL PANEL</text>
+
+  <!-- Panelist cards -->
+  <!-- ANALYST -->
+  <g transform="translate(120, 420)">
+    <rect x="0" y="0" width="260" height="135" fill="#ffffff" stroke="#1a2332" stroke-width="1" filter="url(#card-shadow)"/>
+    <rect x="0" y="0" width="6" height="135" fill="#1a2332"/>
+    <text x="20" y="28" class="label" font-size="9" fill="#c9a961">PANELIST · ANALYST</text>
+    <text x="20" y="58" class="title" font-size="22" fill="#1a2332">Sonnet</text>
+    <text x="20" y="78" class="mono" font-size="10" fill="#3a6b6b">claude-sonnet-4-6</text>
+    <line x1="20" y1="92" x2="120" y2="92" stroke="#c9a961" stroke-width="0.5"/>
+    <text x="20" y="112" class="body" font-size="11" fill="#1a2332" font-style="italic">First-principles</text>
+    <text x="20" y="126" class="body" font-size="11" fill="#1a2332" font-style="italic">decomposition</text>
+  </g>
+
+  <!-- GENERALIST -->
+  <g transform="translate(420, 420)">
+    <rect x="0" y="0" width="260" height="135" fill="#ffffff" stroke="#1a2332" stroke-width="1" filter="url(#card-shadow)"/>
+    <rect x="0" y="0" width="6" height="135" fill="#1a2332"/>
+    <text x="20" y="28" class="label" font-size="9" fill="#c9a961">PANELIST · GENERALIST</text>
+    <text x="20" y="58" class="title" font-size="22" fill="#1a2332">GPT-4o</text>
+    <text x="20" y="78" class="mono" font-size="10" fill="#3a6b6b">gpt-4o</text>
+    <line x1="20" y1="92" x2="120" y2="92" stroke="#c9a961" stroke-width="0.5"/>
+    <text x="20" y="112" class="body" font-size="11" fill="#1a2332" font-style="italic">Cross-domain</text>
+    <text x="20" y="126" class="body" font-size="11" fill="#1a2332" font-style="italic">connections</text>
+  </g>
+
+  <!-- SKEPTIC -->
+  <g transform="translate(720, 420)">
+    <rect x="0" y="0" width="260" height="135" fill="#ffffff" stroke="#1a2332" stroke-width="1" filter="url(#card-shadow)"/>
+    <rect x="0" y="0" width="6" height="135" fill="#1a2332"/>
+    <text x="20" y="28" class="label" font-size="9" fill="#c9a961">PANELIST · SKEPTIC</text>
+    <text x="20" y="58" class="title" font-size="22" fill="#1a2332">Kimi K2</text>
+    <text x="20" y="78" class="mono" font-size="10" fill="#3a6b6b">kimi-k2</text>
+    <line x1="20" y1="92" x2="120" y2="92" stroke="#c9a961" stroke-width="0.5"/>
+    <text x="20" y="112" class="body" font-size="11" fill="#1a2332" font-style="italic">Adversarial</text>
+    <text x="20" y="126" class="body" font-size="11" fill="#1a2332" font-style="italic">reframing</text>
+  </g>
+
+  <!-- VISIONARY -->
+  <g transform="translate(1020, 420)">
+    <rect x="0" y="0" width="260" height="135" fill="#ffffff" stroke="#1a2332" stroke-width="1" filter="url(#card-shadow)"/>
+    <rect x="0" y="0" width="6" height="135" fill="#1a2332"/>
+    <text x="20" y="28" class="label" font-size="9" fill="#c9a961">PANELIST · VISIONARY</text>
+    <text x="20" y="58" class="title" font-size="22" fill="#1a2332">Gemini 2.5</text>
+    <text x="20" y="78" class="mono" font-size="10" fill="#3a6b6b">gemini-2.5-pro</text>
+    <line x1="20" y1="92" x2="120" y2="92" stroke="#c9a961" stroke-width="0.5"/>
+    <text x="20" y="112" class="body" font-size="11" fill="#1a2332" font-style="italic">Long-horizon</text>
+    <text x="20" y="126" class="body" font-size="11" fill="#1a2332" font-style="italic">implications</text>
+  </g>
+
+  <!-- Provider labels under panelists -->
+  <text x="250" y="575" class="label" font-size="8" fill="#3a6b6b" text-anchor="middle" letter-spacing="0.15em">ANTHROPIC</text>
+  <text x="550" y="575" class="label" font-size="8" fill="#3a6b6b" text-anchor="middle" letter-spacing="0.15em">OPENAI</text>
+  <text x="850" y="575" class="label" font-size="8" fill="#3a6b6b" text-anchor="middle" letter-spacing="0.15em">MOONSHOT</text>
+  <text x="1150" y="575" class="label" font-size="8" fill="#3a6b6b" text-anchor="middle" letter-spacing="0.15em">GOOGLE</text>
+
+  <!-- Connecting arrows down to anonymizer -->
+  <line x1="250" y1="595" x2="700" y2="635" stroke="#1a2332" stroke-width="1" marker-end="url(#arrow)"/>
+  <line x1="550" y1="595" x2="700" y2="635" stroke="#1a2332" stroke-width="1" marker-end="url(#arrow)"/>
+  <line x1="850" y1="595" x2="700" y2="635" stroke="#1a2332" stroke-width="1" marker-end="url(#arrow)"/>
+  <line x1="1150" y1="595" x2="700" y2="635" stroke="#1a2332" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <!-- ============================================================ -->
+  <!-- STAGE 3: ANONYMIZE -->
+  <!-- ============================================================ -->
+
+  <g transform="translate(580, 645)">
+    <rect x="0" y="0" width="240" height="55" fill="#3a6b6b" filter="url(#card-shadow)"/>
+    <text x="120" y="22" class="label" font-size="9" fill="#c9a961" text-anchor="middle">ANONYMIZE</text>
+    <text x="120" y="44" class="title" font-size="16" fill="#faf8f3" text-anchor="middle">Haiku · strip style markers</text>
+  </g>
+
+  <!-- Output: P1, P2, P3, P4 labels -->
+  <g transform="translate(900, 658)">
+    <rect x="0" y="0" width="40" height="30" fill="#faf8f3" stroke="#3a6b6b"/>
+    <text x="20" y="20" class="mono" font-size="11" fill="#3a6b6b" text-anchor="middle">P1</text>
+  </g>
+  <g transform="translate(945, 658)">
+    <rect x="0" y="0" width="40" height="30" fill="#faf8f3" stroke="#3a6b6b"/>
+    <text x="20" y="20" class="mono" font-size="11" fill="#3a6b6b" text-anchor="middle">P2</text>
+  </g>
+  <g transform="translate(990, 658)">
+    <rect x="0" y="0" width="40" height="30" fill="#faf8f3" stroke="#3a6b6b"/>
+    <text x="20" y="20" class="mono" font-size="11" fill="#3a6b6b" text-anchor="middle">P3</text>
+  </g>
+  <g transform="translate(1035, 658)">
+    <rect x="0" y="0" width="40" height="30" fill="#faf8f3" stroke="#3a6b6b"/>
+    <text x="20" y="20" class="mono" font-size="11" fill="#3a6b6b" text-anchor="middle">P4</text>
+  </g>
+
+  <text x="1090" y="678" class="body" font-size="11" fill="#3a6b6b" font-style="italic">randomized labels</text>
+
+  <line x1="820" y1="673" x2="898" y2="673" stroke="#3a6b6b" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <!-- ============================================================ -->
+  <!-- STAGE 4: CRITIQUE -->
+  <!-- ============================================================ -->
+
+  <g transform="translate(120, 720)">
+    <rect x="0" y="0" width="1160" height="100" fill="#ffffff" stroke="#1a2332" stroke-width="1" stroke-dasharray="4,4"/>
+    <text x="20" y="25" class="label" font-size="9" fill="#c9a961">CRITIQUE — ROUND-ROBIN BLIND PEER REVIEW</text>
+
+    <text x="40" y="55" class="body" font-size="12" fill="#1a2332"><tspan font-weight="600">Each panelist</tspan> critiques two anonymized peers:</text>
+
+    <text x="60" y="75" class="body" font-size="11" fill="#1a2332">①</text>
+    <text x="80" y="75" class="body" font-size="11" fill="#1a2332"><tspan font-style="italic">Assigned</tspan> — round-robin coverage; every panelist receives critique</text>
+
+    <text x="60" y="91" class="body" font-size="11" fill="#1a2332">②</text>
+    <text x="80" y="91" class="body" font-size="11" fill="#1a2332"><tspan font-style="italic">Most-distant</tspan> — panelist selects peer whose substantive position is furthest from theirs</text>
+
+    <text x="780" y="75" class="body" font-size="11" fill="#3a6b6b" font-style="italic">8 critiques total</text>
+    <text x="780" y="91" class="body" font-size="11" fill="#3a6b6b" font-style="italic">capped at 200 words each</text>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- STAGE 5: SYNTHESIZE -->
+  <!-- ============================================================ -->
+
+  <g transform="translate(120, 855)">
+    <rect x="0" y="0" width="380" height="100" fill="#1a2332" filter="url(#card-shadow)"/>
+    <rect x="0" y="0" width="380" height="6" fill="#c9a961"/>
+    <text x="20" y="28" class="label" font-size="9" fill="#c9a961">SYNTHESIZE</text>
+    <text x="20" y="58" class="title" font-size="22" fill="#faf8f3">Chairman</text>
+    <text x="20" y="78" class="mono" font-size="11" fill="#a3b8c8">claude-opus-4-7</text>
+    <text x="20" y="92" class="body" font-size="11" fill="#a3b8c8" font-style="italic">arbitrates · weighs · synthesizes</text>
+  </g>
+
+  <!-- Output structure -->
+  <g transform="translate(540, 855)">
+    <rect x="0" y="0" width="380" height="100" fill="#ffffff" stroke="#1a2332" stroke-width="1.5" filter="url(#card-shadow)"/>
+    <text x="20" y="25" class="label" font-size="9" fill="#c9a961">USER-FACING OUTPUT — FOUR SECTIONS</text>
+    <line x1="20" y1="35" x2="360" y2="35" stroke="#c9a961" stroke-width="0.3"/>
+
+    <text x="20" y="55" class="title" font-size="13" fill="#1a2332">Answer</text>
+    <text x="100" y="55" class="body" font-size="10" fill="#3a6b6b" font-style="italic">— unified position, lead with this</text>
+
+    <text x="20" y="71" class="title" font-size="13" fill="#1a2332">Reasoning</text>
+    <text x="100" y="71" class="body" font-size="10" fill="#3a6b6b" font-style="italic">— why, drawing on anonymous panel</text>
+
+    <text x="20" y="87" class="title" font-size="13" fill="#1a2332">Dissent</text>
+    <text x="100" y="87" class="body" font-size="10" fill="#3a6b6b" font-style="italic">— surfaced disagreement, presented neutrally</text>
+
+    <text x="220" y="87" class="title" font-size="13" fill="#1a2332">Open</text>
+    <text x="265" y="87" class="body" font-size="10" fill="#3a6b6b" font-style="italic">— what user must still resolve</text>
+  </g>
+
+  <!-- SQLite log -->
+  <g transform="translate(960, 855)">
+    <rect x="0" y="0" width="320" height="100" fill="#faf8f3" stroke="#3a6b6b" stroke-width="1.5" stroke-dasharray="3,3"/>
+    <text x="20" y="25" class="label" font-size="9" fill="#3a6b6b">PERSIST — SESSION LOG</text>
+    <line x1="20" y1="35" x2="300" y2="35" stroke="#3a6b6b" stroke-width="0.3"/>
+    <text x="20" y="55" class="body" font-size="11" fill="#1a2332" font-style="italic">SQLite · council_sessions.db</text>
+    <text x="20" y="73" class="body" font-size="10" fill="#1a2332">prompt · panelists · critiques · synthesis</text>
+    <text x="20" y="88" class="body" font-size="10" fill="#1a2332">dissent flag · departure flag · costs</text>
+  </g>
+
+  <!-- Final arrows -->
+  <line x1="500" y1="905" x2="538" y2="905" stroke="#1a2332" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="920" y1="905" x2="958" y2="905" stroke="#3a6b6b" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Decorative bottom border -->
+  <line x1="60" y1="942" x2="1340" y2="942" stroke="#c9a961" stroke-width="0.5"/>
+  <line x1="60" y1="946" x2="1340" y2="946" stroke="#c9a961" stroke-width="0.5"/>
+
+  <!-- Footer -->
+  <text x="60" y="970" class="body" font-size="10" fill="#3a6b6b" font-style="italic">Council orchestration: 6 stages · ~10 model calls · 60–120s latency · $0.50–$2.00/session</text>
+  <text x="1340" y="970" class="label" font-size="9" fill="#3a6b6b" text-anchor="end" letter-spacing="0.15em">FIG. 1 / 2</text>
+</svg>

@@ -1,0 +1,293 @@
+# Thinking Council — Hermes Workflow Definition
+# Owner: Walid Saleh
+# Version: 1.0
+# Invocation: skill `thinking-council` (manual or trigger-phrase only)
+
+name: thinking_council
+version: 1.0
+description: >
+  Multi-model deliberation panel. Spawns four panelist sub-agents,
+  runs paired blind critique, and synthesizes via Opus Chairman.
+  Reserved for high-stakes prompts only.
+
+# ─────────────────────────────────────────────────────────────
+# INVOCATION GUARDS — Council does not auto-fire
+# ─────────────────────────────────────────────────────────────
+invocation:
+  mode: manual
+  trigger_phrases:
+    - "convene the council"
+    - "council this"
+    - "run thinking council"
+    - "panel this question"
+    - "thinking council on this"
+  auto_invoke: false
+  triage_required: true   # Hermes asks for confirmation if borderline
+
+# ─────────────────────────────────────────────────────────────
+# SUB-AGENT ROSTER
+# ─────────────────────────────────────────────────────────────
+agents:
+
+  chairman:
+    role: orchestrator_and_synthesizer
+    model:
+      provider: anthropic
+      name: claude-opus-4-7
+    system_prompt_file: agents/chairman.md
+    max_tokens: 4000
+    temperature: 0.3   # low temp for synthesis — we want consistency
+
+  analyst:
+    role: panelist
+    model:
+      provider: anthropic
+      name: claude-sonnet-4-6
+    system_prompt_file: agents/panelist_analyst.md
+    max_tokens: 2000
+    temperature: 0.5
+
+  generalist:
+    role: panelist
+    model:
+      provider: openai
+      name: gpt-4o
+    system_prompt_file: agents/panelist_generalist.md
+    max_tokens: 2000
+    temperature: 0.7   # higher temp — we want broad connections
+
+  skeptic:
+    role: panelist
+    model:
+      provider: moonshot
+      name: kimi-k2
+    system_prompt_file: agents/panelist_skeptic.md
+    max_tokens: 2000
+    temperature: 0.6
+
+  visionary:
+    role: panelist
+    model:
+      provider: google-generative-ai
+      name: gemini-2.5-pro
+    system_prompt_file: agents/panelist_visionary.md
+    max_tokens: 2000
+    temperature: 0.7
+
+  anonymizer:
+    role: text_transform
+    model:
+      provider: anthropic
+      name: claude-haiku-4-5-20251001
+    system_prompt_file: agents/anonymizer.md
+    max_tokens: 3000
+    temperature: 0.0   # deterministic — this is a transform, not creative
+
+# ─────────────────────────────────────────────────────────────
+# WORKFLOW STAGES
+# ─────────────────────────────────────────────────────────────
+stages:
+
+  # Stage 1 — Triage
+  - id: triage
+    description: Confirm invocation criteria are met
+    actor: chairman
+    inputs:
+      - user_prompt
+    outputs:
+      - decision: { proceed | single_pass | clarify }
+      - reasoning
+    on_decision:
+      single_pass:
+        action: route_to_chairman_direct
+        skip_remaining_stages: true
+      clarify:
+        action: ask_user
+        skip_remaining_stages: true
+      proceed:
+        action: continue
+
+  # Stage 2 — Parallel panelist generation
+  - id: delegate
+    description: Spawn all four panelists in parallel with the user's prompt
+    parallel: true
+    actors:
+      - analyst
+      - generalist
+      - skeptic
+      - visionary
+    inputs:
+      - user_prompt
+    outputs_per_actor:
+      - raw_response
+    timeout_seconds: 90
+
+  # Stage 3 — Anonymization
+  - id: anonymize
+    description: Strip style markers, assign randomized labels
+    actor: anonymizer
+    inputs:
+      - analyst.raw_response
+      - generalist.raw_response
+      - skeptic.raw_response
+      - visionary.raw_response
+    outputs:
+      - panelist_1
+      - panelist_2
+      - panelist_3
+      - panelist_4
+      - label_map   # internal — Chairman receives but does not surface
+
+  # Stage 4 — Critique round (paired + structured second critique)
+  # Each panelist critiques 2 peers:
+  #   - 1 assigned (round-robin coverage — ensures every panelist receives critique)
+  #   - 1 most-distant (panelist selects the peer whose substantive position is
+  #     furthest from their own — forces engagement with genuine disagreement
+  #     rather than letting panelists pick the weakest target)
+  - id: critique
+    description: Blind peer critique — assigned coverage + most-distant peer
+    parallel: true
+    routing:
+      analyst:
+        assigned: panelist_2
+        second_from: [panelist_3, panelist_4]
+        second_rule: most_distant
+      generalist:
+        assigned: panelist_3
+        second_from: [panelist_1, panelist_4]
+        second_rule: most_distant
+      skeptic:
+        assigned: panelist_4
+        second_from: [panelist_1, panelist_2]
+        second_rule: most_distant
+      visionary:
+        assigned: panelist_1
+        second_from: [panelist_2, panelist_3]
+        second_rule: most_distant
+    critique_template: |
+      You are reviewing peer panelist work. The original prompt was:
+      {{user_prompt}}
+
+      Here is Panelist {{n}}'s response:
+      {{panelist_response}}
+
+      Provide a critique in 200 words or fewer covering:
+      (a) one technical flaw or weakness
+      (b) one missing consideration
+      (c) one point of agreement worth strengthening
+      Be specific. Do not pad.
+    second_critique_selection_rule: |
+      For your second critique, select from the offered candidates the peer whose
+      substantive position is most distant from your own — not the weakest output,
+      not the easiest target. Distance means: they reached a different conclusion,
+      prioritized different considerations, or framed the question differently than
+      you did. The point is to surface real disagreement, not to score points.
+      Briefly state (one sentence) why you selected this peer before critiquing.
+    outputs_per_actor:
+      - critique_assigned
+      - critique_second
+      - second_target_id
+      - second_selection_reason
+
+  # Stage 5 — Synthesis
+  - id: synthesize
+    description: Chairman produces the final unified response
+    actor: chairman
+    inputs:
+      - user_prompt
+      - panelist_1, panelist_2, panelist_3, panelist_4
+      - all_critiques
+    outputs:
+      - answer
+      - reasoning
+      - dissent
+      - open_questions
+    output_structure: |
+      ## Answer
+      {{unified position — lead with this}}
+
+      ## Reasoning
+      {{why this answer, drawing on panel without naming models}}
+
+      ## Dissent
+      {{fundamental disagreements presented neutrally, or "Panel reached consensus" if true}}
+
+      ## Open questions
+      {{unresolved threads worth your further thought}}
+
+  # Stage 6 — Logging
+  - id: log
+    description: Persist full session for research and post-hoc analysis
+    actor: hermes_runtime   # not an LLM call — internal write
+    target: sqlite
+    # Council ships with its own SQLite database. Self-contained, portable,
+    # isolated from ChiefOS's chiefos.db (different machine, different purpose).
+    # Path is relative to skill root; Hermes resolves it at registration time.
+    database: ./data/council_sessions.db
+    schema_file: ./data/schema.sql       # auto-applied on first run if DB missing
+    table: council_sessions
+    fields:
+      - session_id
+      - timestamp
+      - user_prompt
+      - panelist_outputs (JSON)
+      - critiques (JSON)
+      - chairman_synthesis
+      - dissent_present (bool)
+      - chairman_departure_flagged (bool)
+      - total_tokens
+      - estimated_cost_usd
+      - duration_seconds
+
+# ─────────────────────────────────────────────────────────────
+# RETURN CONTRACT
+# ─────────────────────────────────────────────────────────────
+return:
+  default: chairman.synthesize.full_output
+  on_request:
+    "show me the panel": include panelist_1..4 outputs (still anonymized)
+    "show dissent detail": expand dissent section with critique excerpts
+    "show critiques": include all 8 critiques verbatim
+
+# ─────────────────────────────────────────────────────────────
+# ERROR HANDLING
+# ─────────────────────────────────────────────────────────────
+error_handling:
+  panelist_timeout:
+    action: proceed_with_remaining
+    minimum_panelists: 3
+    note_in_synthesis: true
+  panelist_api_error:
+    action: retry_once_then_proceed
+    minimum_panelists: 3
+  chairman_failure:
+    action: fallback_to_sonnet_synthesis
+    log_warning: true
+  budget_exceeded:
+    action: abort_and_report
+    threshold_usd: 5.00
+
+# ─────────────────────────────────────────────────────────────
+# BUDGET PACING — per-stage caps
+# ─────────────────────────────────────────────────────────────
+# Single $5.00 hard cap is too blunt — one runaway stage can eat the whole
+# session budget. Per-stage caps catch overruns earlier and isolate which
+# stage is misbehaving. Hermes tracks running cost and aborts at first cap hit.
+budget:
+  total_session_cap_usd: 5.00
+  abort_on_total_exceeded: true
+  per_stage_caps_usd:
+    triage: 0.10            # one cheap Opus call with short prompt
+    delegate: 1.50          # four panelists in parallel — biggest single chunk
+    anonymize: 0.20         # one Haiku call, low cost
+    critique: 1.00          # eight critiques (2 per panelist × 4) capped at 200 words each
+    synthesize: 1.50        # Opus reading all panel + critiques, producing structured output
+    log: 0.00               # local SQLite write, no API cost
+  on_stage_cap_exceeded:
+    action: abort_session
+    log_offending_stage: true
+    return_partial: true    # surface whatever was produced before abort
+    notify_user: |
+      Council aborted at stage {{stage_id}}: stage budget cap of ${{cap}} exceeded.
+      Partial outputs available on request. Consider whether prompt complexity
+      warranted Council, or whether a panelist is producing pathological verbosity.
