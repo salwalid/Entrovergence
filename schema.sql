@@ -1,9 +1,9 @@
 -- Thinking Council — Session Log Schema
--- Owner: Walid Saleh
+-- Open Source
 -- Version: 1.1
 --
 -- Self-contained SQLite database for Council session research data.
--- Independent of ChiefOS's chiefos.db (different machine, different purpose).
+-- Independent of the main application database (different machine, different purpose).
 --
 -- Hermes auto-applies this schema on first run if council_sessions.db is missing.
 -- Manual setup: sqlite3 ./data/council_sessions.db < ./data/schema.sql

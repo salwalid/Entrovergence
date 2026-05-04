@@ -1,7 +1,7 @@
 ---
 name: thinking-council
-description: Invoke the Thinking Council — a multi-model deliberation panel — for strategically important, high-stakes, or genuinely contested questions where a single model's answer is insufficient. Use ONLY when explicitly requested by Walid (phrases like "convene the council," "council this," "thinking council on this") or when a prompt clearly meets the escalation criteria below. Do NOT auto-invoke for routine questions, factual lookups, casual conversation, or single-domain technical questions. The Council costs 6–10 model calls per session; reserve it for questions that warrant the spend.
-owner: Walid Saleh
+description: Invoke the Thinking Council — a multi-model deliberation panel — for strategically important, high-stakes, or genuinely contested questions where a single model's answer is insufficient. Use ONLY when explicitly requested by the user (phrases like "convene the council," "council this," "thinking council on this") or when a prompt clearly meets the escalation criteria below. Do NOT auto-invoke for routine questions, factual lookups, casual conversation, or single-domain technical questions. The Council costs 6–10 model calls per session; reserve it for questions that warrant the spend.
+owner: open-source
 version: 1.2
 changelog:
   v1.2:
@@ -39,23 +39,23 @@ This script:
 - If present: verifies the expected tables exist and exits clean
 - Is idempotent — safe to re-run any time
 
-If `init.sh` fails or returns a non-zero exit code, do not proceed with Council invocation. Surface the error to Walid and stop.
+If `init.sh` fails or returns a non-zero exit code, do not proceed with Council invocation. Surface the error to the user and stop.
 
 ## When to invoke
 
 **Invoke when:**
-- Walid uses an explicit trigger phrase: "convene the council," "council this," "run thinking council," "panel this question."
-- The prompt is strategic, multi-domain, or contested (e.g., architectural decisions, governance design, research framing, strategy, go-to-market direction).
-- A single-model answer would likely be confidently wrong in ways Walid can't easily detect.
+- the user uses an explicit trigger phrase: "convene the council," "council this," "run thinking council," "panel this question."
+- The prompt is strategic, multi-domain, or contested (e.g., architectural decisions, governance design, research framing, strategic direction).
+- A single-model answer would likely be confidently wrong in ways the user can't easily detect.
 - The cost of a bad answer is high and the cost of an extra 30 seconds + ~$1–2 in API spend is trivial by comparison.
 
 **Do NOT invoke when:**
 - The question is factual, procedural, or has a known correct answer.
 - The question is casual, conversational, or exploratory chat.
 - A single domain expert model would clearly suffice (e.g., "fix this Python bug").
-- Walid is iterating quickly and needs fast turnaround.
+- the user is iterating quickly and needs fast turnaround.
 
-When in doubt, ask Walid: "This looks like a Council-worthy question — convene?"
+When in doubt, ask the user: "This looks like a Council-worthy question — convene?"
 
 ## The Council
 
@@ -70,7 +70,7 @@ When in doubt, ask Walid: "This looks like a Council-worthy question — convene
 
 ## Workflow
 
-1. **Triage.** Hermes confirms invocation criteria are met. If borderline, asks Walid to confirm.
+1. **Triage.** Hermes confirms invocation criteria are met. If borderline, asks the user to confirm.
 2. **Delegate (parallel).** Hermes spawns the four panelist sub-agents simultaneously, each with the user's prompt and its role-specific system prompt.
 3. **Anonymize.** The Anonymizer sub-agent strips brand/style markers from each panelist output and assigns randomized labels: Panelist 1, 2, 3, 4.
 4. **Critique (paired + wildcard).** Each panelist receives two peer outputs to critique: one assigned (round-robin coverage) and one of their choosing — the output they most disagree with. 8 critiques total.
@@ -78,19 +78,19 @@ When in doubt, ask Walid: "This looks like a Council-worthy question — convene
    - **Answer** — the unified position
    - **Reasoning** — why this answer
    - **Dissent** — points of fundamental disagreement, presented neutrally
-   - **Open questions** — unresolved threads worth Walid's further thought
-6. **Log.** Full session (prompt, panelist outputs, critiques, synthesis, dissent) writes to `chiefos.db` table `table_Council_Sessions` for research and post-hoc analysis.
+   - **Open questions** — unresolved threads worth the user's further thought
+6. **Log.** Full session (prompt, panelist outputs, critiques, synthesis, dissent) writes to the local SQLite database for research and post-hoc analysis.
 
 ## Outputs
 
-The Chairman's final response is what Walid sees. The intermediate panelist outputs and critiques are logged but not surfaced unless requested ("show me the panel" or "show dissent detail").
+The Chairman's final response is what the user sees. The intermediate panelist outputs and critiques are logged but not surfaced unless requested ("show me the panel" or "show dissent detail").
 
 ## Constraints
 
 - Chairman never names the underlying models in the final output.
 - If panelists genuinely agree, the Dissent section says so. No manufactured disagreement.
 - If the prompt turns out to be Council-unworthy (too simple, factual, etc.), Chairman returns a single-pass response and notes "Council not convened — escalation criteria not met."
-- Each panelist critique is capped at 200 words. Synthesis is capped at 1500 words unless Walid requests longer.
+- Each panelist critique is capped at 200 words. Synthesis is capped at 1500 words unless the user requests longer.
 
 ## Cost guardrails
 

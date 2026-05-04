@@ -17,7 +17,7 @@ Single-model answers are confidently wrong in ways that are hard to detect from 
 ```
                           ┌─────────────────────┐
                           │   USER PROMPT       │
-                          │   (Walid)           │
+                          │   (the user)           │
                           └──────────┬──────────┘
                                      │
                                      ▼
@@ -83,13 +83,13 @@ Single-model answers are confidently wrong in ways that are hard to detect from 
                                      ▼
                           ┌─────────────────────┐
                           │   FINAL RESPONSE    │
-                          │   (to Walid)        │
+                          │   (to the user)        │
                           └─────────────────────┘
                                      │
                                      ▼
                           ┌─────────────────────┐
                           │   SQLite log        │
-                          │   chiefos.db       │
+                          │   the main application database       │
                           │   table_Council_    │
                           │   Sessions          │
                           └─────────────────────┘
@@ -135,7 +135,7 @@ Hermes itself is not an LLM. It is the orchestration layer. Concretely:
 - **Total model calls per session:** ~10 (4 panelists + 4 critique turns + 1 synthesis + 1 anonymizer).
 - **Latency:** ~60–120 seconds, dominated by the slowest panelist in the delegate stage and the Opus synthesis call.
 - **Cost:** ~$0.50–$2.00 per session, depending on prompt length and panelist verbosity. Bounded by `budget_exceeded` guard at $5.00.
-- **This is why invocation is gated.** Hermes does not auto-fire Council. Walid invokes it via skill name or trigger phrase, or confirms it on borderline prompts.
+- **This is why invocation is gated.** Hermes does not auto-fire Council. The user invokes it via skill name or trigger phrase, or confirms it on borderline prompts.
 
 ## Failure modes and mitigations
 
@@ -167,7 +167,7 @@ This is not fixable by tuning. It is structural to the v1 model assignments.
 
 - Rotate Chairman across providers (e.g., GPT-4o or Gemini 2.5 Pro chairing on alternating sessions) to break Anthropic-family dominance.
 - Designate a non-Anthropic panelist (likely Skeptic or Visionary) as "elevated dissenter" — Chairman is instructed to weight their dissent higher when the Anthropic panelist agrees with the Anthropic Chairman's instinct.
-- Run sessions twice — once with current config, once with Chairman swapped to a non-Anthropic model — and compare. Expensive but informative for the DBA research.
+- Run sessions twice — once with current config, once with Chairman swapped to a non-Anthropic model — and compare. Expensive but informative for research purposes.
 
 **Why not fix in v1:** Opus is the strongest available synthesizer. Swapping it out costs synthesis quality to gain independence. Without data on whether the coupling actually distorts outputs in practice, the swap is speculative. Log sessions, audit Anthropic-vs-non-Anthropic agreement patterns after 20+ runs, then decide.
 
@@ -178,7 +178,7 @@ Opus is powerful enough to produce its own answer to a prompt and treat the pane
 ## Research instrumentation
 
 The SQLite log is not just for ops — it's research data. Each session captures the full debate, which is useful for:
-- Studying which models tend to win on which problem types (your DBA research).
+- Studying which models tend to win on which problem types (research purposes).
 - Detecting whether anonymization actually masks model identity (run a separate classifier over historical sessions).
 - Quantifying how often Council changes the answer vs. how often it just re-confirms a single-model take (this is the key cost-justification metric).
-- Patent portfolio evidence — Council itself is a candidate governance pattern worth documenting.
+- Research instrumentation — Council sessions produce data for studying multi-model deliberation patterns.

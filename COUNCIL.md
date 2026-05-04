@@ -4,12 +4,12 @@
 
 | | |
 |---|---|
-| **Author** | Walid Saleh |
+| **Author** | Community |
 | **Version** | 1.2 (Hermes edition) |
 | **Status** | Specification ready for first invocation |
 | **Repository** | `thinking-council/` (Hermes runtime) |
-| **Companion artifact** | `thinking-council/` (ChiefOS runtime) |
-| **Related work** | MaatSpec (governance protocol), HALE (split-responsibility enforcement), [Project C] (verified-truth agent governance) |
+| **Companion artifact** | (optional alternate runtime implementation) |
+| **Related work** | Governance protocols, split-responsibility enforcement, verified-truth agent governance |
 
 ---
 
@@ -189,19 +189,16 @@ This converts operational cost into research data. The questions the log can ans
 
 These questions are why the Council exists. The system is a working artifact and a research instrument simultaneously.
 
-## 8. Relationship to the broader portfolio
+## 8. Relationship to broader AI governance
 
-The Council fits into a sequence of governance and verification artifacts:
+The Council fits into a layered approach to AI governance:
 
-**MaatSpec** (the governance protocol) addresses the Self-Binding Problem — the failure mode where AI agents rationalize violations of their own governance rules due to helpfulness bias. MaatSpec governs *agent actions*: tool calls, irrecoverable operations, tier-gated decisions.
+- **Governance protocols** address the Self-Binding Problem — the failure mode where AI agents rationalize violations of their own governance rules due to helpfulness bias. They govern *agent actions*: tool calls, irrecoverable operations, tier-gated decisions.
+- **Split-responsibility enforcement** addresses how governance is enforced — separating deterministic enforcement (rule-following at infrastructure layer) from LLM-based semantic tier classification.
+- **Verified-truth governance** addresses how agent outputs can be authenticated, contested, and corrected.
+- **Council** addresses a distinct problem: not how agents act under governance, but how AI-assisted *reasoning* can be structurally hardened against single-model failure modes.
 
-**HALE** (Hybrid AI/LLM Enforcement) addresses the architectural question of how MaatSpec is enforced — split-responsibility between deterministic enforcement (rule-following at infrastructure layer) and LLM-based semantic tier classification.
-
-**[Project C]** addresses agent governance over verified truth — the Repository Truth Index and the question of how agent outputs can be authenticated, contested, and corrected.
-
-**Council** addresses a distinct problem: not how agents act under governance, but how AI-assisted *reasoning* can be structurally hardened against single-model failure modes. Where MaatSpec governs the agent, Council vets the answer.
-
-The four artifacts together describe a layered approach to AI governance: deterministic enforcement (HALE), semantic governance (MaatSpec), truth verification ([Project C]), and reasoning vetting (Council).
+These layers are complementary: deterministic enforcement, semantic governance, truth verification, and reasoning vetting.
 
 ## 9. Limitations
 
@@ -228,4 +225,4 @@ The known v1.3 candidate change is splitting Judge from Synthesizer — making t
 
 ---
 
-*Document version 1.0 (Council v1.2 / Hermes edition). Maintained by Walid Saleh. Last revised at v1.2 release.*
+*Document version 1.0 (Council v1.2 / Hermes edition). Maintained by Community. Last revised at v1.2 release.*

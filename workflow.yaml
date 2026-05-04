@@ -1,5 +1,5 @@
 # Thinking Council — Hermes Workflow Definition
-# Owner: Walid Saleh
+# Open Source
 # Version: 1.0
 # Invocation: skill `thinking-council` (manual or trigger-phrase only)
 
@@ -221,7 +221,7 @@ stages:
     actor: hermes_runtime   # not an LLM call — internal write
     target: sqlite
     # Council ships with its own SQLite database. Self-contained, portable,
-    # isolated from ChiefOS's chiefos.db (different machine, different purpose).
+    # isolated from the main application database (different machine, different purpose).
     # Path is relative to skill root; Hermes resolves it at registration time.
     database: ./data/council_sessions.db
     schema_file: ./data/schema.sql       # auto-applied on first run if DB missing

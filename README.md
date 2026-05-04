@@ -2,7 +2,7 @@
 
 A multi-model deliberation skill for Hermes. Spawns a four-panelist council to produce peer-vetted answers to high-stakes prompts. Reserved for explicit invocation only.
 
-**Owner:** Walid Saleh
+**Owner:** Community
 **Version:** 1.1
 **Status:** Spec ready for Hermes registration. Pre-flight checklist below.
 
@@ -75,13 +75,13 @@ The `workflow.yaml` uses these exact model identifiers. These were correct at v1
 | Skeptic | moonshot | `kimi-k2` |
 | Visionary | google-generative-ai | `gemini-2.5-pro` |
 
-**Walid-specific gotcha:** Google provider's `api` field must be `"google-generative-ai"` exactly. `"google-gemini"` or `"gemini"` will fail validation. Verify the other three providers' identifiers in the same way against current API docs.
+**Important:** Google provider's `api` field must be `"google-generative-ai"` exactly. `"google-gemini"` or `"gemini"` will fail validation. Verify the other three providers' identifiers in the same way against current API docs.
 
 ### 3. SQLite available to Hermes
 
 Council ships with its own database — `data/council_sessions.db` — created by `scripts/init.sh` on first run. Hermes only needs Python's stdlib `sqlite3` module, which is built into any Python install. No external dependency required.
 
-**Confirmed for Walid's Hermes install:** Hermes uses SQLite internally (for `~/.hermes/state.db`) and has Python sqlite3 available. Council's database is fully separate by design — it lives inside the skill folder, not in Hermes's runtime state.
+**Note:** Hermes uses SQLite internally (for `~/.hermes/state.db`) and has Python sqlite3 available. Council's database is fully separate by design — it lives inside the skill folder, not in Hermes's runtime state.
 
 **Hermes does NOT auto-create the database or auto-apply schema.sql.** This was confirmed directly with Hermes: registration copies files but does not execute setup. The skill handles its own initialization via `scripts/init.sh`. The registration prompt in `register.md` instructs Hermes to run init.sh as part of registration.
 
@@ -105,7 +105,7 @@ Hermes is an agent runtime, not an LLM. Its job here is to:
 - Persist sessions to the local SQLite database
 - Return the Chairman's synthesis to the calling context
 
-Hermes does **not** redesign, optimize, or interpret the spec. The whole point of the package is reproducibility — for Walid's DBA research, sessions need to be comparable across time, which requires the spec to stay fixed.
+Hermes does **not** redesign, optimize, or interpret the spec. The whole point of the package is reproducibility — sessions need to be comparable across time, which requires the spec to stay fixed.
 
 ## Registration
 
@@ -156,6 +156,6 @@ If Chairman departure flags exceed 20% of sessions after the first 30 runs, the 
 
 Bump the version in `SKILL.md`'s frontmatter on any substantive change. Skill version is logged with every session in `council_sessions.skill_version`, so historical audits can correlate behavior changes with version bumps. Do not silently modify files in place.
 
-## Contact
+## License
 
-Walid Saleh — noreply@chiefos.local
+Open source. See repository for details.

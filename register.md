@@ -2,7 +2,7 @@
 
 Paste the section between the `===` markers to Hermes verbatim.
 
-The skill installs to `~/.hermes/skills/research/thinking-council/` (using `research` as the category folder, since the primary value is DBA research instrumentation). If you prefer a different category — `governance`, `strategy`, `autonomous-ai-agents` — substitute it in the prompt below.
+The skill installs to `~/.hermes/skills/research/thinking-council/` (using `research` as the category folder). If you prefer a different category — `governance`, `strategy`, `autonomous-ai-agents` — substitute it in the prompt below.
 
 ---
 
@@ -56,7 +56,7 @@ REGISTRATION STEPS
      - Trigger phrases (case-insensitive, fuzzy match): "convene the
        council", "council this", "run thinking council", "panel this
        question", "thinking council on this".
-     - Borderline prompts: ask Walid to confirm before invoking.
+     - Borderline prompts: ask the user to confirm before invoking.
      - On invocation, Chairman runs the triage stage first and may
        return a single-pass response if the prompt does not warrant
        Council. Honor that decision.
@@ -65,7 +65,7 @@ REGISTRATION STEPS
        scripts/init.sh. If init fails, abort the session.
 
 6. Do not modify any file in the skill folder. If you believe a file
-   should change, surface the issue to Walid for a version bump rather
+   should change, surface the issue to the maintainer for a version bump rather
    than editing in place.
 
 CONFIRMATION
@@ -103,7 +103,7 @@ Once registration is verified, invoke Council on a low-stakes prompt where you a
 
 Example dry-run prompts:
 
-- "Convene the council: should the Council session log live in its own SQLite database or share chiefos.db?" *(You already decided — own DB. You're testing whether the system runs end-to-end.)*
+- "Convene the council: should the Council session log live in its own SQLite database or share the main application DB?" *(You already decided — own DB. You're testing whether the system runs end-to-end.)*
 - "Council this: should the Anonymizer use Haiku or a smaller model?" *(You already chose Haiku for v1. Testing parallel panelist returns and synthesis structure.)*
 
 Watch for during dry run:
@@ -121,7 +121,7 @@ If any of these fail, debug before running on a real question.
 
 Once dry run passes, fire on a question that actually matters. Two prompts that fit Council's profile:
 
-- *"Convene the council: what should the go-to-market sequence be for [Project A] — Reddit first, Product Hunt first, or LinkedIn first, and why?"*
-- *"Council this: should the [Project C] strategy lean defensive (block competitors) or offensive (license aggressively), given the current portfolio of MaatSpec + HALE + [Project C]?"*
+- *"Convene the council: what should the go-to-market sequence be for a new developer tool — Reddit first, Product Hunt first, or LinkedIn first, and why?"*
+- *"Council this: should our intellectual property strategy lean defensive or offensive, given a portfolio of three complementary innovations?"*
 
 Both are contested, multi-domain, and have stakes. Either is a good first real test of whether Council changes your thinking or just confirms a single-model take you'd have accepted anyway. That delta is the only metric that justifies the cost.

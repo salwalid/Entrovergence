@@ -41,7 +41,7 @@
   <text x="60" y="170" class="subtitle" font-size="20" fill="#3a6b6b">Triage discipline distinguishes deliberation from default chat</text>
 
   <text x="1340" y="90" class="label" font-size="10" fill="#1a2332" text-anchor="end" letter-spacing="0.15em">VERSION 1.2 · HERMES EDITION</text>
-  <text x="1340" y="108" class="body" font-size="11" fill="#1a2332" text-anchor="end" font-style="italic">Walid Saleh · 2026</text>
+  <text x="1340" y="108" class="body" font-size="11" fill="#1a2332" text-anchor="end" font-style="italic">Thinking Council · 2026</text>
 
   <!-- ============================================================ -->
   <!-- ENTRY: USER PROMPT -->
