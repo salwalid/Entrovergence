@@ -187,7 +187,7 @@ git clone https://github.com/salwalid/Entrovergence.git
 
 # Initialize the session database
 cd Entrovergence
-bash init.sh
+bash data/init.sh
 ```
 
 ### Requirements
@@ -202,22 +202,25 @@ bash init.sh
 
 ```
 Entrovergence/
-├── README.md              ← you are here
-├── SKILL.md               ← manifest, invocation rules, changelog
-├── COUNCIL.md             ← detailed council methodology
-├── workflow.yaml          ← orchestration definition (6 stages)
-├── architecture.md        ← full architecture + structural diagram
-├── register.md            ← registration prompt for your orchestrator
-├── chairman.md            ← Chairman role prompt (Opus)
-├── panelist_analyst.md    ← Analyst role prompt (Sonnet)
-├── panelist_generalist.md ← Generalist role prompt (GPT-4o)
-├── panelist_skeptic.md    ← Skeptic role prompt (Kimi K2)
-├── panelist_visionary.md  ← Visionary role prompt (Gemini 2.5 Pro)
-├── anonymizer.md          ← Anonymizer role prompt (Haiku)
-├── schema.sql             ← SQLite schema for session log
-├── init.sh                ← database initialization script
-├── fig1-architecture.svg  ← architecture diagram
-└── fig2-decision-flow.svg ← decision flow diagram
+├── README.md                       ← you are here
+├── SKILL.md                        ← manifest, invocation rules, changelog
+├── workflow.yaml                   ← orchestration definition (6 stages)
+├── agents/
+│   ├── chairman.md                 ← Chairman role prompt (Opus)
+│   ├── panelist_analyst.md         ← Analyst role prompt (Sonnet)
+│   ├── panelist_generalist.md      ← Generalist role prompt (GPT-4o)
+│   ├── panelist_skeptic.md         ← Skeptic role prompt (Kimi K2)
+│   ├── panelist_visionary.md       ← Visionary role prompt (Gemini 2.5 Pro)
+│   └── anonymizer.md              ← Anonymizer role prompt (Haiku)
+├── docs/
+│   ├── COUNCIL.md                  ← detailed council methodology
+│   ├── architecture.md             ← full architecture + structural diagram
+│   ├── register.md                 ← registration prompt for your orchestrator
+│   ├── fig1-architecture.svg       ← architecture diagram
+│   └── fig2-decision-flow.svg      ← decision flow diagram
+└── data/
+    ├── schema.sql                  ← SQLite schema for session log
+    └── init.sh                     ← database initialization script
 ```
 
 ---
